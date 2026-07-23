@@ -61,7 +61,9 @@ function genLevel3(){
   const t=pick(['parallel','rate','intercept']);
   const a=pick([-3,-2,2,3]); const b=RNG(-4,4);
   if(t==='parallel'){
-    const a2=a, b2=RNG(-4,4);  // 平行な直線 y=a2 x + b2 の傾きと同じ
+    const a2=a;
+    let b2=RNG(-4,4);
+    while(b2===b) b2=RNG(-4,4); // 異なる平行線にする
     const x1=RNG(-3,3), y1=a*x1+b;
     return {
       level:3,
@@ -98,11 +100,11 @@ function genLevel3(){
       display:`切片が \\(${b}\\) で、点 \\((${x1},\\ ${y1})\\) を通る`,
       extra:'', inputs:INPUTS, answers:[a,b], answerLatex:answerLatex(a,b),
       hints:[
-        `切片が ${b} だから \\(y=ax+${b}\\) と書ける。`,
-        `点 \\((${x1},${y1})\\) を代入：\\(${y1}=a\\times(${x1})+${b}\\) から \\(a\\) を求めよう。`,
+        `切片が ${b} だから \\(${eqLatex('a',b)}\\) と書ける。`,
+        `点 \\((${x1},${y1})\\) を代入：\\(${y1}=a\\times(${x1})${b<0?`-${-b}`:`+${b}`}\\) から \\(a\\) を求めよう。`,
         `\\(a=${a}\\)。答えは \\(${answerLatex(a,b)}\\)`
       ],
-      solution:`\\(y=ax+${b}\\) に \\((${x1},${y1})\\) を代入して \\(a=${a}\\)。よって \\(${answerLatex(a,b)}\\)`
+      solution:`\\(${eqLatex('a',b)}\\) に \\((${x1},${y1})\\) を代入して \\(a=${a}\\)。よって \\(${answerLatex(a,b)}\\)`
     };
   }
 }
